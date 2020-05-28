@@ -16,12 +16,12 @@ class book_info(db.Model):
     
 
 class User(db.Model):
-    __tablename__ = "user"
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
 
-        def add_user(self, name):
+    def add_user(self, name):
         u = User(username=username, password=password)
         db.session.add(u)
         db.session.commit()

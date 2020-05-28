@@ -1,4 +1,5 @@
 import csv
+import time
 
 from flask import Flask, render_template, request
 from models import *
@@ -11,8 +12,9 @@ db.init_app(app)
 def main():
     f = open("books.csv")
     reader = csv.reader(f)
+    next(f)
 
-    for isbn, title, author, year in reader: 
+    for isbn, title, author, year in reader:
         book = book_info(isbn=isbn, title=title, author=author, year=year)
         db.session.add(book)
         print(f"{title} by {author} created in {year}. ISBN: {isbn}")

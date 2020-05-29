@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
+from flask_hashing import Hashing
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
@@ -12,6 +13,7 @@ if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
 app = Flask(__name__)
+hashing = Hashing(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -35,10 +37,10 @@ def index():
 def login():
     message = None
     if request.method == "POST":
-        usernameinput = str(request.form.get("username_input"))
-        passwordinput = str(request.form.get("password_input"))
-        user_data = User.query.filter(User.username==usernameinput, User.password==passwordinput)
-        print(user_data)
+        usernameinput = request.form.get("username_input")
+        passwordinput = request.form.get("password_input")
+        hashed_password = hashing.hash_value(passwordinput, salt="dev")
+        user_data = User.query.filter(User.username==usernameinput, User.password==hashed_password)
         count = user_data.count()
         print(count)
         if count > 0:
@@ -57,9 +59,27 @@ def todolist():
     return render_template("todolist.html")
 
 @app.route("/signup")
+
+
 def register():
+    message = None
+    #if request.method == "POST":
+     #   usernameinput = request.form.get("username_input")
+      #  passwordinput = request.form.get("password_input")
+       # hashed_password = hashing.hash_value("passwordinput", salt="dev")
+        #print (hashed_password)
+    #    user_data = User.query.filter(User.username==usernameinput, User.password==passwordinput)
+     #   print(user_data)
+       # count = user_data.count()
+      #  print(count)
+        #if count > 0:
+         # insert 
+
+ #        new_user = User(
+  #                  username = 'newusername',
+   #                 password = 'newpassword')
     return render_template("signup.html")
-    #db.session.add()
+
 
 @app.route("/logout")
 def logout():

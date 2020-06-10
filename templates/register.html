@@ -9,20 +9,20 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/basic.css"> 
-<title>Sign up</title>   
-{% endblock %}
-
-{% block body %}
-{% if message %} <h1> {{ message }} </h1> {% endif %}
-
-<div class="main">
-    <p class="sign" align="center">Sign in</p>
-        <form class="form1" action="{{ url_for('login') }}" method="post">
-        <input class="un" type="text" align="center" placeholder="Username" name="username_input">
-        <input class="pass" type="password" align="center" placeholder="Password" name="password_input" value="{{ request.form.username }}">
-        <button class="submit" align="center" type="submit">Sign in</button>
-    <p class="forgot" align="center"><a href="/register">Need to register?</a></p>         
+    <link rel="stylesheet" href="/static/basic.css">
+    <title>Sign up</title>
+  {% endblock %}
+  
+  {% block body %}
+  {% if message %} <h1> {{ message }} </h1> {% endif %}
+  
+  <div class="main">
+    <p class="sign" align="center">Register</p>
+        <form class="form1" action="{{ url_for('register') }}" method="post">
+        <input class="un" type="text" align="center" placeholder="Username" name="new_username_input">
+        <input class="pass" type="password" align="center" placeholder="Password" name="new_password_input" value="{{ request.form.username }}">
+        <button class="submit" align="center" type="submit">Sign up</button>
+    <p class="forgot" align="center"><a href="/login">Already a member?</a></p>         
         </form>
     </div>
-{% endblock %}
+  {% endblock %}

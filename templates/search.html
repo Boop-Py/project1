@@ -8,13 +8,13 @@
 {% if message %} <h1> {{ message }} </h1> {% endif %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<h2>Search for a book!</h2>
-    <form action="/search" method="GET">
-        <div class="form-group">
-            <input type="text" class="form-control" name="book" autofocus aria-describedby="bookHelp" placeholder="ISBN, Title or Author">
-            <small id="bookHelp" class="form-text text-muted">Example: 1234567890, Brave New World or Shakespeare</small>
-        </div>
-        <button class="btn btn-primary" type="submit">Search</button>
+    <form action="{{ url_for('test') }}" method="post">
+        <div class="main">
+            <p class="sign" align="center">Search for a book!</p>
+            <input class="form-control" type="text" align="center" placeholder="All or part of your ISBN, Title or Author" name="book" >
+            <small class="form-text text-muted">Example: 1234567890, Brave New World or Shakespeare</small>
+            <button class="submit" type="submit" align="center">Search</button>
+        </div>      
     </form>
 
 {% endblock %}

@@ -7,7 +7,7 @@ app = Flask(__name__)
 db = SQLAlchemy()
 
 
-class book_info(db.Model):
+class Book_info(db.Model):
     __tablename__ = "books"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)

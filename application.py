@@ -92,8 +92,25 @@ def login():
 
 @app.route("/search", methods=["GET", "POST"])
 @login_required
-def search():
-    return render_template("search.html")
+def search():    
+    if request.method == "POST":
+        book = request.form.get("book")       
+        # format so can we compare part of the query
+        like_book_data = "%{}%".format(book)        
+        # search a case insensitive query. equiv to SELECT title, author, isbn, year FROM books WHERE title LIKE '%eg%' OR author LIKE '%search%' OR isbn LIKE '%search%' LIMIT 20;
+        search_query = Book_info.query.filter(or_(Book_info.title.ilike(like_book_data), Book_info.author.ilike(like_book_data), Book_info.isbn.ilike(like_book_data))).limit(20)
+        search = search_query.all()
+
+        # if there are no matching results, return a message 
+        if search_query.count() == 0:
+      
+            return render_template("search.html", message="No books found. Please try again.")
+     
+        else: 
+            return render_template("search.html", message="Search Results", search=search)  
+            
+    else:
+        return render_template("search.html")  
 
 @app.route("/todolist")
 def todolist():
@@ -102,28 +119,16 @@ def todolist():
 @app.route("/logout")
 def logout():    
     session.clear()
-    return render_template("logout.html", message=message)
+    return render_template("login.html", message="Signed out sucessfully!")
 
-@app.route("/test", methods=["GET","POST"])
-def test():
+#@app.route("/test", methods=["GET", "POST"])
+#def test():
+#return render_template(.....html)
+
+@app.route("/book/<isbn>", methods=["GET", "POST"])    
+@login_required
+def book():
     if request.method == "POST":
-        book = request.form.get("book")
-        
-        book_data = Book_info.query.filter(Book_info.title==book)
-        #book = "%" + book + "%"
-        #book_data = Book_info.query.filter.match(book).all()
-        #data=db.execute("SELECT * FROM books WHERE author iLIKE '%"+book+"%' OR title iLIKE '%"+book+"%' OR isbn iLIKE '%"+book+"%'").fetchall()
-        #data = Book_info.query.filter(or_(Book_info.title==book, Book_info.author==book, Book_info.isbn==book)).fetchall()
-
-
-        count = book_data.count()
-        if count > 0:
-            return render_template("search.html", message="found a book!")
-        else: 
-            return render_template("search.html", message="none found")  
-    else:
-        return render_template("search.html")  
-
-      
-
+    
+        return render_template(index.html)
   

@@ -26,3 +26,12 @@ class User(db.Model):
         u = User(username=username, password=password)
         db.session.add(u)
         db.session.commit()
+        
+        
+class Review(db.Model):
+    __tablename__ = "reviews"
+    id = db.Column(db.Integer, primary_key=True)
+    users_id = db.Column(db.Integer, db.ForeignKey("books.id"), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    comment = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)

@@ -17,7 +17,7 @@ if not os.getenv("DATABASE_URL"):
 # configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -25,70 +25,94 @@ app.secret_key = os.urandom(24)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+Session(app)
 db.init_app(app)  
-
+hashing = Hashing(app)
 
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-
  
-hashing = Hashing(app)
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+
+
     
     
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods = ["GET", "POST"])
 def register():
     message = None
-    if request.method == "GET":
-        if session.get("logged_in"):
-            flash("you are already logged in")
-            return redirect("/index", code=303)
-        else: 
-            return render_template("register.html")
-
-    # salts and hashes the new password
     if request.method == "POST":
         newusernameinput = request.form.get("new_username_input")
         newpasswordinput = request.form.get("new_password_input")
         hashed_password = hashing.hash_value(newpasswordinput, salt="dev")
-        user_data = User.query.filter(User.username==newusernameinput)
         
-        # checks if user already exists
-        count = user_data.count()
-        if count == 0:
-            new_user = User(username=newusernameinput, password=hashed_password)
+        # check user already exists
+        check_exists = db.execute("SELECT * FROM users WHERE username = :newusernameinput", 
+                                    {"newusernameinput":newusernameinput}).fetchone()   
+        if check_exists:
+            return render_template("register.html", message = "Already registered.")
             
-            # commit changes to database
-            db.add(new_user)
-            db.commit()
-            message = "Sucessfully registered. Please log in using the login page."
-        else:
-            message = "Already registered. Please email admin if problem persists."
-    return render_template("register.html", message=message)
+            # count = user_data.count()
+            # if count == 0:
+            # new_user = User(username=newusernameinput, password=hashed_password)
+            
+        # check password is entered   
+        elif not newpasswordinput:
+            return render_template("register.html", message = "Please enter a password") 
+        # user_data = User.query.filter(User.username==newusernameinput)  
+        
+        # hash the password
+        hashed_password = hashing.hash_value(newpasswordinput, salt = "dev")
+        
+        # insert into database 
+        db.execute("INSERT INTO users (username, password) VALUES (:username, :password)",
+                            {"username":newusernameinput,
+                            "password": hashed_password})
+                            # db.add(new_user)
+        
+        # commit changes to database
+        db.commit()
+        return render_template("register.html", message = "Sucessfully registered. Please log in using the login page.")
 
-@app.route("/login", methods=["GET", "POST"])
+    else:
+        return render_template("register.html", message = message)
+
+@app.route("/", methods = ["GET", "POST"])
 def login():
-    message = None
-    
-      
+    message = None    
     if request.method == "POST":
         usernameinput = request.form.get("username_input")
         passwordinput = request.form.get("password_input")
-        hashed_password = hashing.hash_value(passwordinput, salt="dev")
+        hashed_password = hashing.hash_value(passwordinput, salt = "dev")
         
-        # checks to see if the given username/password combination exists.
-        user_data = User.query.filter(User.username==usernameinput, User.password==hashed_password)
-        count = user_data.count()
-        if count > 0:
-            session["username"]=usernameinput
-            return redirect("/search", code=302)           
-        else:
+        # checks to see if the given username exists.
+        check_exists = db.execute("SELECT * FROM users WHERE username = :usernameinput",
+                                {"usernameinput":usernameinput})
+                                
+        exists = check_exists.fetchone()
+        print(exists)
+        if check_exists:
+            print("check password")
+            #f hashed_password ==  
+            #else:
+            #     message = "Please enter valid login details."
+        else: 
             message = "Please enter valid login details."  
-    return render_template("login.html", message=message)
+        # user_data = User.query.filter(User.username==usernameinput, User.password==hashed_password)
+           
+        #check password is correct
+
+            # remember user
+
+            
+            
+            # redirect to the search page
+        return redirect("/search", code = 302)           
+    else:
+        return render_template("login.html", message = message)
+    return render_template("login.html", message = message)
+
+
 
 @app.route("/search", methods=["GET", "POST"])
 @login_required

@@ -1,14 +1,15 @@
 h1, h2 {
-    background-color: #8C55AA;
+    background-color: #55aaa8a3;
     font-family: sans-serif;
     font-size: 20px;
     font-weight: bold;
     padding: 20px;
     margin: 20px;
+    border-radius: 1.5em;
   }
 
   body {
-    background-color: #F3EBF6;
+    background-color: #c6e0ff;
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -19,11 +20,12 @@ h1, h2 {
     margin: 7em auto;
     border-radius: 1.5em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    padding: 12px;
 }
 
 .sign {
     padding-top: 40px;
-    color: #8C55AA;
+    color: #558baa;
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     font-size: 23px;
@@ -48,6 +50,10 @@ text-align: center;
 margin-bottom: 27px;
 font-family: 'Ubuntu', sans-serif;
 }
+.small {
+    padding-left: 12px;
+    padding-bottom: 50px;
+}
 
 .results-container {
     display: flex;
@@ -55,8 +61,31 @@ font-family: 'Ubuntu', sans-serif;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: baseline;
+    padding: 12px;
+    padding-top: 15px;
 }
 
+.book-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-bottom: 30px;
+}
+    
+.review-container {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.form-control {
+    padding: 1rem;
+    
+}    
 .card-body {
     text-align: start;
 }
@@ -66,36 +95,35 @@ form.form1 {
 }
 
 .pass {
-        width: 76%;
-color: rgb(38, 50, 56);
-font-weight: 700;
-font-size: 14px;
-letter-spacing: 1px;
-background: rgba(136, 126, 126, 0.04);
-padding: 10px 20px;
-border: none;
-border-radius: 20px;
-outline: none;
-box-sizing: border-box;
-border: 2px solid rgba(0, 0, 0, 0.02);
-margin-bottom: 50px;
-margin-left: 46px;
-text-align: center;
-margin-bottom: 27px;
-font-family: 'Ubuntu', sans-serif;
+    width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 
 .un:focus, .pass:focus {
-    border: 2px solid rgba(0, 0, 0, 0.18) !important;
-    
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;    
 }
 
 .submit {
-  cursor: pointer;
+    cursor: pointer;
     border-radius: 5em;
     color: #fff;
-    background: linear-gradient(to right, #9C27B0, #E040FB);
+    background: linear-gradient(to right, #2767b0, #40d9fb);
     border: 0;
     padding-left: 40px;
     padding-right: 40px;
@@ -103,6 +131,7 @@ font-family: 'Ubuntu', sans-serif;
     padding-top: 10px;
     font-family: 'Ubuntu', sans-serif;
     margin-left: 35%;
+    margin-top: 12px;
     font-size: 13px;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
 }
@@ -115,7 +144,7 @@ font-family: 'Ubuntu', sans-serif;
 
 a {
     text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-    color: #E1BEE7;
+    color: #007bff;
     text-decoration: none
 }
 
@@ -123,3 +152,4 @@ a {
     .main {
         border-radius: 0px;
     }
+    

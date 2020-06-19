@@ -3,7 +3,7 @@ import json
 import requests
 from helpers import *
 from flask_session import Session
-from flask import Flask, session, render_template, request, redirect, url_for, jsonify
+from flask import Flask, session, render_template, request, redirect, url_for, jsonify, flash
 from flask_hashing import Hashing
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -151,8 +151,10 @@ def book(isbn):
                                 ON users.id = reviews.user_id \
                                 WHERE book_id = :book", 
                                 {"book": book})                             
-    user_reviews = user_reviews.fetchall() 
-    
+    if user_reviews:
+        user_reviews= user_reviews.fetchall()
+    else: 
+        message = "Be the first to review!"
     ####GOODREADS RATINGS####
     # query the goodreads API with isbn as parameter
     key = os.getenv("GOODREADS_KEY")
@@ -182,7 +184,7 @@ def book(isbn):
                          
         if check_review_exists:
             flash("Review already submitted", "warning")
-            return redirect("/book/" + isbn)
+            return render_template("/book/" + isbn)
                        
         # check comment is entered   
         elif not comment:

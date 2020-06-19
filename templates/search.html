@@ -4,14 +4,14 @@
 {% endblock %}
 {% block body %} 
    <form action="{{ url_for('search') }}" method="post">
-        <div class="main">
+        <div class="main-almost">
             <p class="sign" align="center">Search for a book!</p>
-            <input class="form-control" type="text" align="center" placeholder="All or part of your ISBN, Title or Author" name="book" >
+            <input class="form-control" type="text" align="center" placeholder="All or part of your ISBN, Title or Author" name="book">
             <small class="form-text text-muted">Example: 04, Legend or Cooper</small>
             <button class="submit" type="submit" align="center">Search</button>
         </div>      
     </form>
-<div class="dropdown-divider"></div>
+
     {% if message %} <h1> {{ message }} </h1> {% endif %}
 <div class="container results-container">
     {% for book in search %}

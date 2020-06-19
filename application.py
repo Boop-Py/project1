@@ -229,7 +229,7 @@ def api_access(isbn):
         dictlist['average_score'] = float(dictlist['average_score'])
         return jsonify(dictlist)     
     else: 
-       return jsonify({"Error 404": "Unable to find ISBN"}), 404
+       return jsonify({"code": "404", "message": "can not find book"})
        
 @app.route("/todolist")
 def todolist():
